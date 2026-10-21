@@ -1,0 +1,14 @@
+[project]
+name = "template-service"
+version = "0.1.0"
+description = "Copy this folder to bootstrap a new FastAPI microservice with Clean Architecture layers"
+requires-python = ">=3.12"
+dependencies = [
+    "app-common>=0.1.0",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+]

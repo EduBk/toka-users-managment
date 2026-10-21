@@ -1,0 +1,17 @@
+{
+  "name": "Toka · Gestión de usuarios",
+  "short_name": "Toka",
+  "description": "Administración de usuarios, roles, permisos y auditoría de accesos.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F4EF",
+  "theme_color": "#12171A",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

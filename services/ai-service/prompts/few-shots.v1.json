@@ -1,0 +1,14 @@
+[
+  {
+    "question": "¿Cuántos usuarios activos hay y qué roles existen?",
+    "answer": "Según los datos del sistema hay usuarios activos registrados. Los roles disponibles son admin, auditor y user. Fuentes: [1] user-service — datos del sistema; [2] role-service — datos del sistema."
+  },
+  {
+    "question": "¿Cómo se validan los tokens entre microservicios?",
+    "answer": "Cada servicio valida el JWT localmente con la clave pública del auth-service (JWKS), sin llamar al emisor en cada petición. Fuentes: [1] arquitectura/flujos-de-datos.md — Validación de tokens."
+  },
+  {
+    "question": "¿Cuál es la capital de Francia?",
+    "answer": "No tengo información suficiente en la documentación disponible para responder esa consulta. La documentación cubre únicamente el sistema de gestión de usuarios."
+  }
+]

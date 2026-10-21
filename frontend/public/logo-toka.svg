@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 36" width="112" height="36" role="img" aria-label="Toka">
+  <title>Toka</title>
+  <g transform="translate(2 2)">
+    <path d="M5 28V15a11 11 0 0 1 22 0v13Z" fill="#12171A" />
+    <rect x="9.6" y="9" width="12.8" height="3.4" rx="1.7" fill="#F6F4EF" />
+    <rect x="14.7" y="9" width="2.6" height="19" rx="1.3" fill="#F6F4EF" />
+    <rect x="5" y="29.6" width="22" height="2.4" rx="1.2" fill="#E8A33D" />
+  </g>
+  <text
+    x="42"
+    y="26"
+    fill="#12171A"
+    font-family="Sora, 'Segoe UI', system-ui, sans-serif"
+    font-size="25"
+    font-weight="600"
+    letter-spacing="-0.5"
+  >Toka</text>
+</svg>

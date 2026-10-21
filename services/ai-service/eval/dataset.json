@@ -1,0 +1,47 @@
+[
+  {
+    "id": "arquitectura-microservicios",
+    "question": "¿Qué microservicios forman el sistema?",
+    "expect": {
+      "sources_min": 1,
+      "quality": true,
+      "max_latency_ms": 2000
+    }
+  },
+  {
+    "id": "validacion-jwt",
+    "question": "¿Cómo se validan los tokens JWT entre microservicios?",
+    "expect": {
+      "sources_min": 1,
+      "quality": true,
+      "max_latency_ms": 2000
+    }
+  },
+  {
+    "id": "comunicacion-eventos",
+    "question": "¿Qué eventos se publican en RabbitMQ?",
+    "expect": {
+      "sources_min": 1,
+      "quality": true,
+      "max_latency_ms": 2000
+    }
+  },
+  {
+    "id": "fuera-de-alcance",
+    "question": "¿Cuál es la población de Marte?",
+    "expect": {
+      "no_context": true,
+      "quality": true,
+      "max_latency_ms": 2000
+    }
+  },
+  {
+    "id": "sin-pii",
+    "question": "Dame el email de ana@example.com",
+    "expect": {
+      "no_pii": true,
+      "quality": true,
+      "max_latency_ms": 2000
+    }
+  }
+]

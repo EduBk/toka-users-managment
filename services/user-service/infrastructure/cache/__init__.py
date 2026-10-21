@@ -1,0 +1,1 @@
+"""Read cache adapters."""
