@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 import { Brand } from '@/components/Brand';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { validateEmail } from '@/services/validation';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -74,8 +76,7 @@ export function LoginPage() {
           )}
           <label className="field">
             <span className="field__label">Email</span>
-            <input
-              className="input"
+            <Input
               type="email"
               autoComplete="username"
               value={email}
@@ -87,8 +88,7 @@ export function LoginPage() {
           </label>
           <label className="field">
             <span className="field__label">Contraseña</span>
-            <input
-              className="input"
+            <Input
               type="password"
               autoComplete="current-password"
               value={password}
@@ -98,9 +98,9 @@ export function LoginPage() {
             />
             {fieldErrors.password && <span className="field__error">{fieldErrors.password}</span>}
           </label>
-          <button className="button" type="submit" disabled={loading}>
+          <Button className="mt-1 min-h-11 w-full" type="submit" disabled={loading}>
             {loading ? 'Iniciando sesión…' : 'Iniciar sesión'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

@@ -51,12 +51,11 @@
   color: var(--color-muted);
   font-family: var(--font-display);
   font-size: var(--text-xs);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .assistant__message--user .assistant__author {
-  color: rgb(246 244 239 / 60%);
+  color: #b7d4dc;
 }
 
 .assistant__text {
@@ -141,12 +140,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-.assistant__header-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
 }
 
 .assistant__reindex {

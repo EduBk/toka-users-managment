@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { PageHeader } from '@/components/PageHeader';
+import { Card } from '@/components/ui/card';
 import { UserForm } from '@/features/users/UserForm';
 import { notify } from '@/stores/toastStore';
 import { useUsersStore } from '@/stores/usersStore';
@@ -15,10 +17,11 @@ export function UserCreatePage() {
 
   return (
     <section>
-      <div className="page-header">
-        <h1>Nuevo usuario</h1>
-      </div>
-      <div className="panel">
+      <PageHeader
+        title="Nuevo usuario"
+        description="Crea una cuenta y define los datos con los que accederá al sistema."
+      />
+      <Card>
         <UserForm
           submitLabel="Crear usuario"
           busy={mutationStatus === 'loading'}
@@ -32,7 +35,7 @@ export function UserCreatePage() {
           }}
           onCancel={() => navigate('/users')}
         />
-      </div>
+      </Card>
     </section>
   );
 }

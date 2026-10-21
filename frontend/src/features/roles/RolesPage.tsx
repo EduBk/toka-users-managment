@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { PageHeader } from '@/components/PageHeader';
 import { EmptyState, ErrorState, Skeleton } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { PermissionChips, PermissionPicker } from '@/features/roles/PermissionControls';
 import { permissionCatalog } from '@/features/roles/permissions';
 import { RoleCreateForm } from '@/features/roles/RoleCreateForm';
@@ -26,46 +29,49 @@ function RoleRow({ role, catalog }: { role: Role; catalog: string[] }) {
   }
 
   return (
-    <article className="role" aria-label={`Rol ${role.name}`}>
-      <div className="role__header">
-        <div>
-          <h2>{role.name}</h2>
-          {role.description && <p className="muted">{role.description}</p>}
-        </div>
-        {!editing && (
-          <button
-            type="button"
-            className="button button--secondary button--small"
-            onClick={() => {
-              setDraft(role.permissions);
-              setEditing(true);
-            }}
-          >
-            Editar permisos
-          </button>
-        )}
-      </div>
-      {editing ? (
-        <div className="role__editor">
-          <PermissionPicker catalog={catalog} value={draft} disabled={busy} onChange={setDraft} />
-          <div className="form__actions">
-            <button type="button" className="button" onClick={() => void save()} disabled={busy}>
-              {busy ? 'Guardando…' : 'Guardar permisos'}
-            </button>
-            <button
-              type="button"
-              className="button button--secondary"
-              onClick={() => setEditing(false)}
-              disabled={busy}
-            >
-              Cancelar
-            </button>
+    <Card asChild>
+      <article className="role" aria-label={`Rol ${role.name}`}>
+        <div className="role__header">
+          <div>
+            <h2>{role.name}</h2>
+            {role.description && <p className="muted">{role.description}</p>}
           </div>
+          {!editing && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setDraft(role.permissions);
+                setEditing(true);
+              }}
+            >
+              Editar permisos
+            </Button>
+          )}
         </div>
-      ) : (
-        <PermissionChips permissions={role.permissions} />
-      )}
-    </article>
+        {editing ? (
+          <div className="role__editor">
+            <PermissionPicker catalog={catalog} value={draft} disabled={busy} onChange={setDraft} />
+            <div className="form__actions">
+              <Button type="button" onClick={() => void save()} disabled={busy}>
+                {busy ? 'Guardando…' : 'Guardar permisos'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setEditing(false)}
+                disabled={busy}
+              >
+                Cancelar
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <PermissionChips permissions={role.permissions} />
+        )}
+      </article>
+    </Card>
   );
 }
 
@@ -81,24 +87,26 @@ export function RolesPage() {
 
   return (
     <section>
-      <div className="page-header">
-        <h1>Roles</h1>
-        {!creating && (
-          <button
-            type="button"
-            className="button"
-            onClick={() => {
-              useRolesStore.setState({ mutationStatus: 'idle', mutationError: null });
-              setCreating(true);
-            }}
-          >
-            Nuevo rol
-          </button>
-        )}
-      </div>
+      <PageHeader
+        title="Roles"
+        description="Define qué puede hacer cada rol y ajusta sus permisos por recurso."
+        actions={
+          !creating && (
+            <Button
+              type="button"
+              onClick={() => {
+                useRolesStore.setState({ mutationStatus: 'idle', mutationError: null });
+                setCreating(true);
+              }}
+            >
+              Nuevo rol
+            </Button>
+          )
+        }
+      />
 
       {creating && (
-        <div className="panel role-create">
+        <Card className="role-create">
           <h2>Nuevo rol</h2>
           <RoleCreateForm
             catalog={catalog}
@@ -113,7 +121,7 @@ export function RolesPage() {
             }}
             onCancel={() => setCreating(false)}
           />
-        </div>
+        </Card>
       )}
 
       {(status === 'idle' || status === 'loading') && <Skeleton rows={3} label="Cargando roles" />}

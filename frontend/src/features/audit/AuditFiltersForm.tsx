@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react';
 
 import { EVENT_TYPES } from '@/features/audit/eventTypes';
 import type { AuditFilters } from '@/services/auditApi';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface AuditFiltersFormProps {
   busy: boolean;
@@ -51,8 +53,7 @@ export function AuditFiltersForm({ busy, onApply }: AuditFiltersFormProps) {
     <form className="toolbar audit-filters" aria-label="Filtros" onSubmit={handleSubmit} noValidate>
       <label className="field">
         <span className="field__label">Usuario (ID)</span>
-        <input
-          className="input"
+        <Input
           value={values.user}
           maxLength={254}
           placeholder="ID de usuario o cuenta"
@@ -62,7 +63,7 @@ export function AuditFiltersForm({ busy, onApply }: AuditFiltersFormProps) {
       <label className="field">
         <span className="field__label">Tipo de evento</span>
         <select
-          className="input"
+          className="select"
           value={values.type}
           onChange={(event) => update('type', event.target.value)}
         >
@@ -76,8 +77,7 @@ export function AuditFiltersForm({ busy, onApply }: AuditFiltersFormProps) {
       </label>
       <label className="field">
         <span className="field__label">Desde</span>
-        <input
-          className="input"
+        <Input
           type="date"
           value={values.from}
           onChange={(event) => update('from', event.target.value)}
@@ -85,25 +85,19 @@ export function AuditFiltersForm({ busy, onApply }: AuditFiltersFormProps) {
       </label>
       <label className="field">
         <span className="field__label">Hasta</span>
-        <input
-          className="input"
+        <Input
           type="date"
           value={values.to}
           onChange={(event) => update('to', event.target.value)}
         />
       </label>
       <div className="audit-filters__actions">
-        <button type="submit" className="button" disabled={busy}>
+        <Button type="submit" disabled={busy}>
           Aplicar filtros
-        </button>
-        <button
-          type="button"
-          className="button button--secondary"
-          onClick={handleReset}
-          disabled={busy}
-        >
+        </Button>
+        <Button type="button" variant="outline" onClick={handleReset} disabled={busy}>
           Limpiar
-        </button>
+        </Button>
       </div>
       {error && (
         <p className="alert audit-filters__error" role="alert">

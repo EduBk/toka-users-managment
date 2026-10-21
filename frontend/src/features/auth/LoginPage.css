@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 30rem);
   min-height: 100vh;
-  background: var(--color-surface);
+  background: var(--background);
 }
 
 .login__aside {
@@ -30,7 +30,7 @@
   height: 3px;
   margin-bottom: var(--space-6);
   border-radius: 2px;
-  background: var(--color-accent);
+  background: var(--color-frosted);
 }
 
 .login__pitch h1 {
@@ -42,7 +42,7 @@
 .login__pitch p {
   margin: var(--space-4) 0 0;
   max-width: 24rem;
-  color: rgb(246 244 239 / 65%);
+  color: #b7d4dc;
 }
 
 .login__form-wrap {
@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-10);
-  background: var(--color-surface);
+  background: var(--background);
 }
 
 .login__form {
@@ -67,12 +67,6 @@
 }
 
 .login__intro p {
-  margin-top: var(--space-1);
-}
-
-.login__form .button {
-  width: 100%;
-  min-height: 2.75rem;
   margin-top: var(--space-1);
 }
 

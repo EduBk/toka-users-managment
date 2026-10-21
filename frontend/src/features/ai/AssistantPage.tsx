@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 
+import { PageHeader } from '@/components/PageHeader';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { EmptyState, ErrorState, Spinner } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { ACCESS, hasAccess } from '@/features/auth/access';
 import { useAssistantStore, type AssistantMessage } from '@/stores/assistantStore';
 import { useAuthStore } from '@/stores/authStore';
@@ -145,35 +148,34 @@ export function AssistantPage() {
 
   return (
     <section className="assistant">
-      <div className="page-header">
-        <div>
-          <h1>Asistente</h1>
-          <p className="muted">
-            Pregunta sobre la documentación y los datos del sistema. Las respuestas citan las
-            fuentes consultadas.
-          </p>
-        </div>
-        <div className="assistant__header-actions">
-          {canReindex && (
-            <button
+      <PageHeader
+        title="Asistente"
+        description="Pregunta sobre la documentación y los datos del sistema. Las respuestas citan las fuentes consultadas."
+        actions={
+          <>
+            {canReindex && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setConfirmReindex(true)}
+                disabled={reindexStatus === 'loading'}
+              >
+                {reindexStatus === 'loading' ? 'Indexando…' : 'Reindexar documentación'}
+              </Button>
+            )}
+            <Button
               type="button"
-              className="button button--secondary button--small"
-              onClick={() => setConfirmReindex(true)}
-              disabled={reindexStatus === 'loading'}
+              variant="outline"
+              size="sm"
+              onClick={reset}
+              disabled={messages.length === 0 || loading}
             >
-              {reindexStatus === 'loading' ? 'Indexando…' : 'Reindexar documentación'}
-            </button>
-          )}
-          <button
-            type="button"
-            className="button button--secondary button--small"
-            onClick={reset}
-            disabled={messages.length === 0 || loading}
-          >
-            Nueva conversación
-          </button>
-        </div>
-      </div>
+              Nueva conversación
+            </Button>
+          </>
+        }
+      />
 
       {reindexStatus === 'loading' && (
         <p className="assistant__hint" role="status">
@@ -205,13 +207,14 @@ export function AssistantPage() {
             <ul className="assistant__suggestions">
               {SUGGESTIONS.map((suggestion) => (
                 <li key={suggestion}>
-                  <button
+                  <Button
                     type="button"
-                    className="button button--secondary button--small"
+                    variant="outline"
+                    size="sm"
                     onClick={() => void ask(suggestion)}
                   >
                     {suggestion}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -254,9 +257,9 @@ export function AssistantPage() {
           Tu pregunta
         </label>
         <div className="assistant__composer-row">
-          <textarea
+          <Textarea
             id="assistant-question"
-            className="input assistant__textarea"
+            className="assistant__textarea"
             rows={3}
             value={question}
             maxLength={MAX_QUESTION_LENGTH}
@@ -265,9 +268,9 @@ export function AssistantPage() {
             onChange={(event) => setQuestion(event.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button type="submit" className="button" disabled={!canSubmit}>
+          <Button type="submit" disabled={!canSubmit}>
             {loading ? 'Consultando…' : 'Preguntar'}
-          </button>
+          </Button>
         </div>
         <div className="assistant__options">
           <p className="assistant__hint">

@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 export function Spinner({ label = 'Cargando…' }: { label?: string }) {
   return (
     <span className="spinner" role="status">
@@ -24,9 +26,9 @@ export function ErrorState({ message, onRetry }: { message: string; onRetry?: ()
     <div className="state state--error" role="alert">
       <p>{message}</p>
       {onRetry && (
-        <button type="button" className="button button--secondary" onClick={onRetry}>
+        <Button variant="outline" onClick={onRetry}>
           Reintentar
-        </button>
+        </Button>
       )}
     </div>
   );

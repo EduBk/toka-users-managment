@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { PageHeader } from '@/components/PageHeader';
 import { ErrorState, Skeleton } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { ACCESS, hasAccess } from '@/features/auth/access';
 import { UserRolesPanel } from '@/features/roles/UserRolesPanel';
 import { StatusBadge } from '@/features/users/StatusBadge';
@@ -60,56 +63,57 @@ export function UserDetailPage() {
 
   return (
     <section>
-      <div className="page-header">
-        <div>
-          <Link to="/users">Usuarios</Link>
-          <h1>{selected.name}</h1>
-        </div>
-        <StatusBadge status={selected.status} />
-      </div>
+      <PageHeader
+        title={selected.name}
+        description="Revisa y actualiza los datos de la cuenta, sus roles y permisos."
+        breadcrumb={<Link to="/users">Usuarios</Link>}
+        actions={<StatusBadge status={selected.status} />}
+      />
 
-      <div className="panel">
-        <h2>Datos</h2>
-        {inactive && (
-          <p className="alert alert--info">
-            El usuario está desactivado: sus datos ya no se pueden modificar.
-          </p>
-        )}
-        <UserForm
-          key={selected.updated_at}
-          initial={{ email: selected.email, name: selected.name }}
-          submitLabel="Guardar cambios"
-          busy={busy}
-          disabled={!canWrite || inactive}
-          error={mutationStatus === 'error' && !confirming ? mutationError : null}
-          onSubmit={async (input) => {
-            const changes = {
-              ...(input.email !== selected.email && { email: input.email }),
-              ...(input.name !== selected.name && { name: input.name }),
-            };
-            if (Object.keys(changes).length === 0) {
-              notify.success('No hay cambios que guardar.');
-              return;
-            }
-            if (await updateUser(userId, changes)) notify.success('Cambios guardados.');
-          }}
-          onCancel={() => navigate('/users')}
-        />
-        {canWrite && !inactive && (
-          <div className="danger-zone">
-            <button
-              type="button"
-              className="button button--danger"
-              onClick={() => setConfirming(true)}
-              disabled={busy}
-            >
-              Desactivar usuario
-            </button>
-          </div>
-        )}
-      </div>
+      <div className="stack">
+        <Card>
+          <h2>Datos</h2>
+          {inactive && (
+            <p className="alert alert--info">
+              El usuario está desactivado: sus datos ya no se pueden modificar.
+            </p>
+          )}
+          <UserForm
+            key={selected.updated_at}
+            initial={{ email: selected.email, name: selected.name }}
+            submitLabel="Guardar cambios"
+            busy={busy}
+            disabled={!canWrite || inactive}
+            error={mutationStatus === 'error' && !confirming ? mutationError : null}
+            onSubmit={async (input) => {
+              const changes = {
+                ...(input.email !== selected.email && { email: input.email }),
+                ...(input.name !== selected.name && { name: input.name }),
+              };
+              if (Object.keys(changes).length === 0) {
+                notify.success('No hay cambios que guardar.');
+                return;
+              }
+              if (await updateUser(userId, changes)) notify.success('Cambios guardados.');
+            }}
+            onCancel={() => navigate('/users')}
+          />
+          {canWrite && !inactive && (
+            <div className="danger-zone">
+              <Button
+                variant="destructive"
+                type="button"
+                onClick={() => setConfirming(true)}
+                disabled={busy}
+              >
+                Desactivar usuario
+              </Button>
+            </div>
+          )}
+        </Card>
 
-      {canManageRoles && <UserRolesPanel email={selected.email} />}
+        {canManageRoles && <UserRolesPanel email={selected.email} />}
+      </div>
 
       {confirming && (
         <ConfirmDialog

@@ -1,6 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { PageHeader } from '@/components/PageHeader';
 import { EmptyState, ErrorState, Skeleton } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { AuditEntryDialog } from '@/features/audit/AuditEntryDialog';
 import { AuditFiltersForm } from '@/features/audit/AuditFiltersForm';
 import { useAuditStore } from '@/stores/auditStore';
@@ -20,9 +30,10 @@ export function AuditPage() {
 
   return (
     <section>
-      <div className="page-header">
-        <h1>Auditoría</h1>
-      </div>
+      <PageHeader
+        title="Auditoría"
+        description="Revisa cada evento registrado: quién actuó, cuándo y sobre qué."
+      />
 
       <AuditFiltersForm
         busy={status === 'loading'}
@@ -43,42 +54,47 @@ export function AuditPage() {
         />
       )}
       {status === 'success' && items.length > 0 && (
-        <div className="table-wrap">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Productor</th>
-                <th scope="col">Actor</th>
-                <th scope="col">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-secondary/60 hover:bg-secondary/60">
+                <TableHead scope="col">Fecha</TableHead>
+                <TableHead scope="col">Tipo</TableHead>
+                <TableHead scope="col">Productor</TableHead>
+                <TableHead scope="col">Actor</TableHead>
+                <TableHead scope="col" className="text-right">
                   <span className="visually-hidden">Acciones</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {items.map((entry) => (
-                <tr key={entry.event_id}>
-                  <td>{dateTimeFormat.format(new Date(entry.occurred_at))}</td>
-                  <td>
-                    <code>{entry.type}</code>
-                  </td>
-                  <td>{entry.producer}</td>
-                  <td className="muted">{entry.actor_id ?? '—'}</td>
-                  <td className="table__actions">
-                    <button
+                <TableRow key={entry.event_id}>
+                  <TableCell className="text-muted-foreground">
+                    {dateTimeFormat.format(new Date(entry.occurred_at))}
+                  </TableCell>
+                  <TableCell>
+                    <code className="rounded bg-secondary px-1.5 py-0.5 font-mono text-xs text-foreground">
+                      {entry.type}
+                    </code>
+                  </TableCell>
+                  <TableCell>{entry.producer}</TableCell>
+                  <TableCell className="text-muted-foreground">{entry.actor_id ?? '—'}</TableCell>
+                  <TableCell className="text-right">
+                    <Button
                       type="button"
-                      className="button button--secondary button--small"
+                      variant="outline"
+                      size="sm"
                       aria-label={`Ver detalle de ${entry.type}`}
                       onClick={() => setDetail(entry)}
                     >
                       Ver detalle
-                    </button>
-                  </td>
-                </tr>
+                    </Button>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
 
@@ -88,22 +104,24 @@ export function AuditPage() {
             Página {page} de {totalPages} ({total} eventos)
           </span>
           <div className="pagination__buttons">
-            <button
+            <Button
               type="button"
-              className="button button--secondary button--small"
+              variant="outline"
+              size="sm"
               onClick={() => void fetchPage(page - 1)}
               disabled={page <= 1}
             >
               Anterior
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className="button button--secondary button--small"
+              variant="outline"
+              size="sm"
               onClick={() => void fetchPage(page + 1)}
               disabled={page >= totalPages}
             >
               Siguiente
-            </button>
+            </Button>
           </div>
         </nav>
       )}

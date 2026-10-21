@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import type { UserInput } from '@/services/usersApi';
 import { validateEmail, validateName } from '@/services/validation';
 
@@ -53,8 +55,7 @@ export function UserForm({
       )}
       <label className="field">
         <span className="field__label">Nombre</span>
-        <input
-          className="input"
+        <Input
           value={name}
           onChange={(event) => setName(event.target.value)}
           aria-invalid={Boolean(fieldErrors.name)}
@@ -65,8 +66,7 @@ export function UserForm({
       </label>
       <label className="field">
         <span className="field__label">Email</span>
-        <input
-          className="input"
+        <Input
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
@@ -77,17 +77,12 @@ export function UserForm({
         {fieldErrors.email && <span className="field__error">{fieldErrors.email}</span>}
       </label>
       <div className="form__actions">
-        <button className="button" type="submit" disabled={locked}>
+        <Button type="submit" disabled={locked}>
           {busy ? 'Guardando…' : submitLabel}
-        </button>
-        <button
-          className="button button--secondary"
-          type="button"
-          onClick={onCancel}
-          disabled={busy}
-        >
+        </Button>
+        <Button variant="outline" type="button" onClick={onCancel} disabled={busy}>
           Cancelar
-        </button>
+        </Button>
       </div>
     </form>
   );

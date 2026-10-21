@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { PermissionPicker } from '@/features/roles/PermissionControls';
 import type { RoleInput } from '@/services/rolesApi';
 import { validateRoleName } from '@/services/validation';
@@ -35,8 +37,7 @@ export function RoleCreateForm({ catalog, busy, error, onSubmit, onCancel }: Rol
       )}
       <label className="field">
         <span className="field__label">Nombre</span>
-        <input
-          className="input"
+        <Input
           value={name}
           onChange={(event) => setName(event.target.value)}
           aria-invalid={Boolean(nameError)}
@@ -47,8 +48,7 @@ export function RoleCreateForm({ catalog, busy, error, onSubmit, onCancel }: Rol
       </label>
       <label className="field">
         <span className="field__label">Descripción</span>
-        <input
-          className="input"
+        <Input
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           maxLength={255}
@@ -62,17 +62,12 @@ export function RoleCreateForm({ catalog, busy, error, onSubmit, onCancel }: Rol
         onChange={setPermissions}
       />
       <div className="form__actions">
-        <button className="button" type="submit" disabled={busy}>
+        <Button type="submit" disabled={busy}>
           {busy ? 'Creando…' : 'Crear rol'}
-        </button>
-        <button
-          className="button button--secondary"
-          type="button"
-          onClick={onCancel}
-          disabled={busy}
-        >
+        </Button>
+        <Button variant="outline" type="button" onClick={onCancel} disabled={busy}>
           Cancelar
-        </button>
+        </Button>
       </div>
     </form>
   );

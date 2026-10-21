@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { ErrorState, Skeleton } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { PermissionChips } from '@/features/roles/PermissionControls';
 import { useRolesStore } from '@/stores/rolesStore';
 import { notify } from '@/stores/toastStore';
@@ -58,7 +60,7 @@ export function UserRolesPanel({ email }: { email: string }) {
   }
 
   return (
-    <div className="panel">
+    <Card>
       <h2>Roles y permisos</h2>
       {(accessStatus === 'idle' || accessStatus === 'loading') && (
         <Skeleton rows={2} label="Cargando roles del usuario" />
@@ -86,14 +88,15 @@ export function UserRolesPanel({ email }: { email: string }) {
                 {accountRoles.map((role) => (
                   <li key={role.id}>
                     <span className="assigned-roles__name">{role.name}</span>
-                    <button
+                    <Button
                       type="button"
-                      className="button button--secondary button--small"
+                      variant="outline"
+                      size="sm"
                       onClick={() => setRoleToRevoke(role)}
                       disabled={busy}
                     >
                       Revocar
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ul>
@@ -102,7 +105,7 @@ export function UserRolesPanel({ email }: { email: string }) {
               <label className="field">
                 <span className="field__label">Asignar rol</span>
                 <select
-                  className="input"
+                  className="select"
                   value={roleToAssign}
                   onChange={(event) => setRoleToAssign(event.target.value)}
                   disabled={busy || assignable.length === 0}
@@ -117,14 +120,13 @@ export function UserRolesPanel({ email }: { email: string }) {
                   ))}
                 </select>
               </label>
-              <button
+              <Button
                 type="button"
-                className="button"
                 onClick={() => void handleAssign()}
                 disabled={busy || !roleToAssign}
               >
                 Asignar
-              </button>
+              </Button>
             </div>
           </section>
           <section aria-label="Permisos efectivos">
@@ -147,6 +149,6 @@ export function UserRolesPanel({ email }: { email: string }) {
           onCancel={() => setRoleToRevoke(null)}
         />
       )}
-    </div>
+    </Card>
   );
 }

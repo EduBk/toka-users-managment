@@ -1,7 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { PageHeader } from '@/components/PageHeader';
 import { EmptyState, ErrorState, Skeleton } from '@/components/feedback';
+import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button-variants';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { ACCESS, hasAccess } from '@/features/auth/access';
 import { StatusBadge } from '@/features/users/StatusBadge';
 import { useAuthStore } from '@/stores/authStore';
@@ -32,20 +44,22 @@ export function UsersPage() {
 
   return (
     <section>
-      <div className="page-header">
-        <h1>Usuarios</h1>
-        {canWrite && (
-          <Link className="button" to="/users/new">
-            Nuevo usuario
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        title="Usuarios"
+        description="Consulta las cuentas registradas, su estado y cuándo se dieron de alta."
+        actions={
+          canWrite && (
+            <Link className={buttonVariants()} to="/users/new">
+              Nuevo usuario
+            </Link>
+          )
+        }
+      />
 
       <div className="toolbar">
         <label className="field">
           <span className="field__label">Buscar en esta página</span>
-          <input
-            className="input"
+          <Input
             type="search"
             placeholder="Nombre o email"
             value={filter}
@@ -67,7 +81,7 @@ export function UsersPage() {
           description="Los usuarios que crees aparecerán aquí."
           action={
             canWrite && (
-              <Link className="button" to="/users/new">
+              <Link className={buttonVariants()} to="/users/new">
                 Crear el primer usuario
               </Link>
             )
@@ -81,37 +95,43 @@ export function UsersPage() {
         />
       )}
       {status === 'success' && visible.length > 0 && (
-        <div className="table-wrap">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Email</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Alta</th>
-                <th scope="col">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-secondary/60 hover:bg-secondary/60">
+                <TableHead scope="col">Nombre</TableHead>
+                <TableHead scope="col">Email</TableHead>
+                <TableHead scope="col">Estado</TableHead>
+                <TableHead scope="col">Alta</TableHead>
+                <TableHead scope="col" className="text-right">
                   <span className="visually-hidden">Acciones</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {visible.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>
+                <TableRow key={user.id}>
+                  <TableCell className="font-medium text-foreground">{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
                     <StatusBadge status={user.status} />
-                  </td>
-                  <td>{dateFormat.format(new Date(user.created_at))}</td>
-                  <td className="table__actions">
-                    <Link to={`/users/${user.id}`} aria-label={`Ver ${user.name}`}>
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {dateFormat.format(new Date(user.created_at))}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Link
+                      className="text-sm font-semibold"
+                      to={`/users/${user.id}`}
+                      aria-label={`Ver ${user.name}`}
+                    >
                       Ver detalle
                     </Link>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
 
@@ -121,22 +141,24 @@ export function UsersPage() {
             Página {page} de {totalPages} ({total} usuarios)
           </span>
           <div className="pagination__buttons">
-            <button
+            <Button
               type="button"
-              className="button button--secondary button--small"
+              variant="outline"
+              size="sm"
               onClick={() => void fetchPage(page - 1)}
               disabled={page <= 1}
             >
               Anterior
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className="button button--secondary button--small"
+              variant="outline"
+              size="sm"
               onClick={() => void fetchPage(page + 1)}
               disabled={page >= totalPages}
             >
               Siguiente
-            </button>
+            </Button>
           </div>
         </nav>
       )}

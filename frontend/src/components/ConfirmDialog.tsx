@@ -1,4 +1,13 @@
-import { useEffect, useId, useRef } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface ConfirmDialogProps {
   title: string;
@@ -17,43 +26,26 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
-  const titleId = useId();
-  const cancelRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    cancelRef.current?.focus();
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') onCancel();
-    }
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [onCancel]);
-
   return (
-    <div className="dialog-backdrop">
-      <div className="dialog" role="alertdialog" aria-modal="true" aria-labelledby={titleId}>
-        <h2 id={titleId}>{title}</h2>
-        <p>{message}</p>
-        <div className="dialog__actions">
-          <button
-            ref={cancelRef}
-            type="button"
-            className="button button--secondary"
-            onClick={onCancel}
-            disabled={busy}
-          >
+    <AlertDialog open onOpenChange={(open) => !open && onCancel()}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{message}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={onCancel} disabled={busy}>
             Cancelar
-          </button>
-          <button
-            type="button"
-            className="button button--danger"
+          </AlertDialogCancel>
+          <AlertDialogAction
             onClick={onConfirm}
             disabled={busy}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {busy ? 'Procesando…' : confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
